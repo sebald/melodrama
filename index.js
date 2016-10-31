@@ -74,6 +74,11 @@ commandExists('yarn', (err, cmdExists) => {
     args.push('prismjs');
   }
 
+  // Skip install (for testing)
+  if (cli.flags.skipInstall) {
+    process.exit();
+  }
+
   // Go and install everything.
   console.log(chalk.cyan('Installing dependencies. This may take a while...'));
   console.log();
@@ -84,6 +89,6 @@ commandExists('yarn', (err, cmdExists) => {
       console.log(chalk.red(`Execution of command ${cmd} ${args.join(' ')} failed!`));
       return;
     }
-    console.log(code);
+    console.log('<insert init script here>');
   });
 });
