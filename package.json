@@ -1,10 +1,13 @@
 {
   "name": "melodrama",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Create a new spectacular presentation without any drama!",
   "readme": "README.md",
   "bin": {
     "melodrama": "./index.js"
+  },
+  "engines": {
+    "node": ">=5"
   },
   "files": [
     "index.js"
