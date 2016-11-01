@@ -14,7 +14,7 @@ async function melodrama (...args) {
   return spawn('node', args);
 }
 
-test.before('clean up temporary directory', t => {
+test.before('clean up temporary directory', () => {
   fs.removeSync(tmpDir);
 });
 
