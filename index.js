@@ -8,6 +8,14 @@ const fs = require('fs-extra');
 const meow = require('meow');
 const spawn = require('cross-spawn');
 
+// Helper to make sure we're not overwriting things
+const allowedFiles = ['.DS_Store', 'Thumbs.db', '.git', '.gitignore', '.vscode', 'README.md', 'LICENSE'];
+const noFileConflict = dir => {
+  return fs.readdirSync(dir)
+    .every(file => allowedFiles.indexOf(file) >= 0);
+}
+
+
 const cli = meow(`
   ${chalk.underline('Usage:')}
     $ create-spectacle <dir> [options]
@@ -32,15 +40,15 @@ if (!cli.input.length) {
 
 // Make sure we're not overwriting anything
 const rootDir = path.resolve(cli.input.shift());
-if (fs.existsSync(rootDir)) {
-  console.log(chalk.red(`Directory ${rootDir} already exists!`));
-  console.log(chalk.red('Please choose another directory.'));
+if (!fs.existsSync(rootDir)) {
+  fs.ensureDirSync(rootDir);
+} else if (!noFileConflict(rootDir)) {
+  console.log(chalk.red(`Directory ${rootDir} contains files that could conflict.`));
   process.exit(1);
 }
 
 // Finally, all input validated. Let's bootstrap!
 console.log(chalk.cyan(`Creating new Spectacle presentation in ${rootDir}.`));
-fs.ensureDirSync(rootDir);
 
 // Create a very basic `package.json`
 const pkg = {
@@ -51,6 +59,12 @@ fs.writeFileSync(
   path.join(rootDir, 'package.json'),
   JSON.stringify(pkg, null, 2)
 );
+
+// Do NOT install dependencies (for testing)
+if (cli.flags.skipInstall) {
+  console.log(chalk.yellow('Skipping installation of dependencies.'));
+  process.exit();
+}
 
 // Can we use `yarn`?
 commandExists('yarn', (err, cmdExists) => {
@@ -72,11 +86,6 @@ commandExists('yarn', (err, cmdExists) => {
   );
   if(cli.flags.syntax) {
     args.push('prismjs');
-  }
-
-  // Skip install (for testing)
-  if (cli.flags.skipInstall) {
-    process.exit();
   }
 
   // Go and install everything.

@@ -9,13 +9,19 @@
   "files": [
     "index.js"
   ],
+  "scripts": {
+    "test": "ava"
+  },
   "author": {
     "name": "Sebastian Sebald",
     "email": "sebastian.sebald@gmail.com"
   },
   "license": "MIT",
   "devDependencies": {
-    "eslint": "3.9.0"
+    "ava": "0.16.0",
+    "eslint": "3.9.0",
+    "execa": "0.5.0",
+    "uuid": "2.0.3"
   },
   "dependencies": {
     "chalk": "1.1.3",
