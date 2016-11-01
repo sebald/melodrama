@@ -26,7 +26,7 @@ test('do not overwrite existing directory', async t => {
   t.throws(melodrama('.'));
 });
 
-test.only('create package.json in <dir>', async t => {
+test('create package.json in <dir>', async t => {
   const dir = getTmpDir();
   const result = await melodrama(dir, '--skip-install');
   const pkg = fs.readJsonSync(`${dir}/package.json`);
