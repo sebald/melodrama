@@ -10,6 +10,7 @@ const getTmpDir = () => path.resolve(tmpDir, v4());
 const index = require.resolve('./index');
 async function melodrama (...args) {
   args.unshift(index);
+  args.push('--skip-install');
   return spawn('node', args);
 }
 
@@ -22,13 +23,20 @@ test('show help if no <dir>', async t => {
   t.is(typeof result.stdout, 'string');
 });
 
-test('do not overwrite existing directory', async t => {
+test('can be added to existing direcotry', async t => {
+  const dir = getTmpDir();
+  fs.mkdirsSync(dir);
+  const result = await melodrama(dir);
+  t.is(result.code, 0);
+});
+
+test('does abort if there folder has some non-allowed files', async t => {
   t.throws(melodrama('.'));
 });
 
 test('create package.json in <dir>', async t => {
   const dir = getTmpDir();
-  const result = await melodrama(dir, '--skip-install');
+  const result = await melodrama(dir);
   const pkg = fs.readJsonSync(`${dir}/package.json`);
 
   t.is(result.code, 0);
