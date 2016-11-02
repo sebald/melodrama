@@ -47,7 +47,7 @@ const defaultTheme = 'default';
 const themePrefix = 'spectacle-theme-';
 const findSpectacleThemes = () => {
   return got(`https://api.npms.io/v2/search?q=${themePrefix}`, {json: true})
-    .then(({body}) => {
+    .then(({ body }) => {
       const themes = body.results
         .map(result => result.package)
         .map(({ name }) => name.replace(themePrefix, ''));
