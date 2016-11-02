@@ -10,7 +10,8 @@
     "node": ">=5"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "init.js"
   ],
   "scripts": {
     "test": "ava"
@@ -30,6 +31,9 @@
     "command-exists": "1.0.2",
     "execa": "0.5.0",
     "fs-extra": "0.30.0",
-    "meow": "3.7.0"
+    "got": "6.6.1",
+    "inquirer": "^1.2.2",
+    "meow": "3.7.0",
+    "node-emoji": "1.4.1"
   }
 }
