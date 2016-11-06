@@ -29,7 +29,7 @@ test('prepare install command', async t => {
 
   t.regex(cmd, /yarn|npm/);
   t.regex(args[0], /add|install/);
-  t.regex(args[1], /--dev|--SE/);
+  t.regex(args[1], /--dev|--DE/);
 
   if (cmd === 'yarn') {
     t.is(args[2], '--exact');
