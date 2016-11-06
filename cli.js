@@ -2,19 +2,27 @@
 'use strict';
 
 const chalk = require('chalk');
+const commandExists = require('command-exists');
 const emoji = require('node-emoji').get;
 const fs = require('fs-extra');
 const meow = require('meow');
 const path = require('path');
-const PrettyError = require('pretty-error');
-const execa = require('execa');
 const spawn = require('cross-spawn');
 
-const {
-  createInstallSpinner,
-  hasFileConflicts,
-  prepareDirectory,
-  prepareInstallCommand } = require('./utils');
+const allowedFiles = [
+  '.DS_Store',
+  'Thumbs.db',
+  '.git',
+  '.gitignore',
+  '.idea',
+  '.vscode',
+  'README.md',
+  'LICENSE'
+];
+const hasFileConflicts = dir => {
+  return !fs.readdirSync(dir)
+    .every(file => allowedFiles.indexOf(file) >= 0);
+};
 
 // CLI
 const cli = meow({
@@ -52,48 +60,73 @@ if (fs.existsSync(dir) && hasFileConflicts(dir)) {
   process.exit();
 }
 
-// "Main"
-prepareDirectory(dir)
-  .then(() => prepareInstallCommand(verbose))
-  .then(({ cmd, args }) => {
-    process.chdir(dir);
-    console.log(
-      chalk.green(`${emoji('file_folder')} Folder created at `) +
-      chalk.green.italic(dir)
-    );
-    // Use `execa`, b/c it lets us handle errors more gracefully.
-    const child = execa(cmd, args.concat('melodrama-scripts'));
-    // Only show a spinner if stdout isn't verbose.
-    if (verbose) {
-      child.stdout.pipe(process.stdout);
-      return child;
+// Prepare directory
+fs.outputJsonSync(
+  path.join(dir, 'package.json'),
+  {
+    name: path.basename(dir),
+    version: '1.0.0',
+    private: true
+  }
+);
+console.log(
+  chalk.green(`${emoji('file_folder')} Folder created at `) +
+  chalk.green.italic(dir)
+);
+
+
+// Prepare install command command
+commandExists('yarn', (err, isAvailable) => {
+  if (err) {
+    console.log(chalk.red(err));
+    process.exit(1);
+  }
+
+  let cmd, args;
+  if (isAvailable) {
+    cmd = 'yarn';
+    args = ['add', '--dev', '--exact'];
+  } else {
+    cmd = 'npm';
+    args = ['install', '--DE'];
+    if (verbose) { args.push('--verbose'); }
+  }
+
+  process.chdir(dir);
+  console.log(chalk.dim('Installing...'));
+  const installMelodramaScripts = spawn(
+    cmd,
+    args.concat('melodrama-scripts'),
+    { stdio: verbose ? 'inherit': 'ignore' }
+  );
+  installMelodramaScripts.on('close', code => {
+    if (code > 0) {
+      console.log(chalk.red('Installation failed.'));
+      process.exit();
     }
-    return createInstallSpinner(child);
-  })
-  .then(() => new Promise((resolve, reject) =>{
-    const initScript = path.resolve(
+
+    const bootstrap = path.resolve(
       process.cwd(),
       'node_modules',
       'melodrama-scripts',
-      'scripts',
-      'init.js'
+      'index.js'
     );
-    const child = spawn(
-      'node',
-      [
-        initScript,
-        cli.flags.verbose ? '--verbose' : ''
-      ],
-      { stdio: 'inherit' });
-    child.on('close', code => {
-      if (code > 0) { return reject(code); }
-      resolve();
-    });
-  }))
-  .catch(err => {
-    const pe = new PrettyError();
-    console.log();
-    console.log(chalk.red(`${emoji('rotating_light')} Bootstrapping failed because of the following reasons:`));
-    console.log(pe.render(err));
-    process.exit();
+    require(bootstrap)(dir, { verbose });
+
+    // const initScript = path.resolve(
+    //   process.cwd(),
+    //   'node_modules',
+    //   'melodrama-scripts',
+    //   'scripts',
+    //   'init.js'
+    // );
+    // spawn(
+    //   'node',
+    //   [
+    //     initScript,
+    //     cli.flags.verbose ? '--verbose' : ''
+    //   ],
+    //   { stdio: 'inherit' }
+    // );
   });
+});
