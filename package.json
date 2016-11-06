@@ -2,38 +2,41 @@
   "name": "melodrama",
   "version": "0.1.0",
   "description": "Create a new spectacular presentation without any drama!",
-  "readme": "README.md",
   "bin": {
-    "melodrama": "./index.js"
+    "melodrama": "./bin/melodrama.js"
   },
   "engines": {
     "node": ">=6"
   },
   "files": [
-    "index.js",
-    "init.js"
+    "cli.js",
+    "utils.js"
   ],
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "dev:init": "rm -rf .tmp/example && node cli .tmp/example"
   },
   "author": {
     "name": "Sebastian Sebald",
     "email": "sebastian.sebald@gmail.com"
   },
   "license": "MIT",
-  "devDependencies": {
-    "ava": "0.16.0",
-    "eslint": "3.9.0",
-    "uuid": "2.0.3"
-  },
   "dependencies": {
     "chalk": "1.1.3",
     "command-exists": "1.0.2",
+    "cross-spawn": "5.0.1",
     "execa": "0.5.0",
     "fs-extra": "0.30.0",
     "got": "6.6.1",
     "inquirer": "^1.2.2",
     "meow": "3.7.0",
-    "node-emoji": "1.4.1"
+    "node-emoji": "1.4.1",
+    "ora": "0.3.0",
+    "pretty-error": "2.0.2"
+  },
+  "devDependencies": {
+    "ava": "0.16.0",
+    "eslint": "3.9.0",
+    "uuid": "2.0.3"
   }
 }
