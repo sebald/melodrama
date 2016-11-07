@@ -12,7 +12,8 @@
     "cli.js"
   ],
   "scripts": {
-    "test": "ava",
+    "test": "nyc ava",
+    "report": "./node_modules/.bin/nyc report --reporter=html",
     "dev:init": "rm -rf .tmp/example && node cli .tmp/example"
   },
   "author": {
@@ -40,7 +41,9 @@
   },
   "devDependencies": {
     "ava": "0.16.0",
+    "coveralls": "2.11.14",
     "eslint": "3.9.0",
+    "nyc": "8.4.0",
     "proxyquire": "1.7.10",
     "uuid": "2.0.3"
   }
