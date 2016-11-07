@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sebald/melodrama.svg?branch=master)](https://travis-ci.org/sebald/melodrama) [![Coverage Status](https://coveralls.io/repos/github/sebald/melodrama/badge.svg?branch=master)](https://coveralls.io/github/sebald/melodrama?branch=master)
 
-Create boilerplates for presentation in a jiffy with almost no configuration. Think of [`create-react-app`](https://github.com/facebookincubator/create-react-app) for presentations!
+Create boilerplates for presentation in a jiffy, with almost no configuration. Think of [`create-react-app`](https://github.com/facebookincubator/create-react-app) for presentations!
 
 ### Why?
 
@@ -59,7 +59,7 @@ Depending on you answers [PrismJS](http://prismjs.com/) and/or the chosen theme 
 
 Once the installation is done, you can run the following scripts:
 
-### `npm start``
+### `npm start`
 
 Compile the presentation and start a develeopment server in watch mode. Your (default) browser should open automatically after the first compilation was successful.
 
