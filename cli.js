@@ -3,12 +3,16 @@
 
 const chalk = require('chalk');
 const commandExists = require('command-exists');
-const emoji = require('node-emoji').get;
 const fs = require('fs-extra');
+const logSymbols = require('log-symbols');
 const meow = require('meow');
+const ora = require('ora');
 const path = require('path');
 const spawn = require('cross-spawn');
 
+
+// Helper
+// ---------------
 const allowedFiles = [
   '.DS_Store',
   'Thumbs.db',
@@ -16,7 +20,6 @@ const allowedFiles = [
   '.gitignore',
   '.idea',
   '.vscode',
-  'README.md',
   'LICENSE'
 ];
 const hasFileConflicts = dir => {
@@ -24,7 +27,9 @@ const hasFileConflicts = dir => {
     .every(file => allowedFiles.indexOf(file) >= 0);
 };
 
-// CLI
+
+// Script ("main")
+// ---------------
 const cli = meow({
   description: false,
   help:
@@ -46,17 +51,20 @@ const cli = meow({
 
 // Require a file path.
 if (!cli.input[0]) {
-  console.log(chalk.red(`${emoji('no_entry')} Please specify a path to setup the presentation.`));
+  console.log(chalk.yellow(`${logSymbols.warning} Please specify a path to create the presentation.`));
   process.exit();
 }
 
 const dir = path.resolve(cli.input[0]);
+const scriptName = 'melodrama-scripts';
 const verbose = cli.flags.verbose;
 
 // Make sure we do not accidentally overwrite something.
 if (fs.existsSync(dir) && hasFileConflicts(dir)) {
-  console.log(chalk.red(`${emoji('open_file_folder')} Directory ${chalk.italic(dir)} contains files that could conflict.`));
-  console.log(chalk.red('Please choose another one.'));
+  console.log(chalk.red(
+`${logSymbols.error} Directory ${chalk.italic(dir)} contains files that
+  could conflict. Please chose another one.`
+  ));
   process.exit();
 }
 
@@ -69,19 +77,21 @@ fs.outputJsonSync(
     private: true
   }
 );
-console.log(
-  chalk.green(`${emoji('file_folder')} Folder created at `) +
-  chalk.green.italic(dir)
-);
+console.log(`${logSymbols.success} Directory created at ${chalk.italic(dir)}`);
 
+// Skip install process (for testing only)
+if (cli.flags.skipInstall) {
+  process.exit();
+}
 
-// Prepare install command command
+// Prepare install command command.
 commandExists('yarn', (err, isAvailable) => {
   if (err) {
     console.log(chalk.red(err));
     process.exit(1);
   }
 
+  // Use `yarn` if available.
   let cmd, args;
   if (isAvailable) {
     cmd = 'yarn';
@@ -92,41 +102,32 @@ commandExists('yarn', (err, isAvailable) => {
     if (verbose) { args.push('--verbose'); }
   }
 
+  // Install `melodrama-scripts`
   process.chdir(dir);
-  console.log(chalk.dim('Installing...'));
+  const spinner = ora(chalk.dim(`Installing ${chalk.italic(scriptName)}. This may take a while...`));
+  spinner.start();
+
   const installMelodramaScripts = spawn(
     cmd,
-    args.concat('melodrama-scripts'),
+    args.concat(scriptName),
     { stdio: verbose ? 'inherit': 'ignore' }
   );
   installMelodramaScripts.on('close', code => {
     if (code > 0) {
-      console.log(chalk.red('Installation failed.'));
+      spinner.text = 'Installation failed!';
+      spinner.fail();
       process.exit();
     }
+    spinner.text = 'Installation complete!';
+    spinner.succeed();
 
+    // Invoke bootstrap script from `melodrama-scripts`.
     const bootstrap = path.resolve(
       process.cwd(),
       'node_modules',
-      'melodrama-scripts',
+      scriptName,
       'index.js'
     );
     require(bootstrap)(dir, { verbose });
-
-    // const initScript = path.resolve(
-    //   process.cwd(),
-    //   'node_modules',
-    //   'melodrama-scripts',
-    //   'scripts',
-    //   'init.js'
-    // );
-    // spawn(
-    //   'node',
-    //   [
-    //     initScript,
-    //     cli.flags.verbose ? '--verbose' : ''
-    //   ],
-    //   { stdio: 'inherit' }
-    // );
   });
 });
