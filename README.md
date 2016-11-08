@@ -59,11 +59,11 @@ Depending on you answers [PrismJS](http://prismjs.com/) and/or the chosen theme 
 
 Once the installation is done, you can run the following scripts:
 
-#### `npm start`
+### `npm start`
 
 Compile the presentation and start a develeopment server in watch mode. Your (default) browser should open automatically after the first compilation was successful.
 
-Open `index.js` to develop you presentation! Saving will automatically refresh your browser.
+Open `index.js` to develop you presentation!
 
 ## What compiles?
 
