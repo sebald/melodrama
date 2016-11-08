@@ -1,6 +1,6 @@
 # Melodrama
 
-[![Build Status](https://travis-ci.org/sebald/melodrama.svg?branch=master)](https://travis-ci.org/sebald/melodrama) [![Coverage Status](https://coveralls.io/repos/github/sebald/melodrama/badge.svg?branch=master)](https://coveralls.io/github/sebald/melodrama?branch=master)
+[![Build Status](https://img.shields.io/travis/sebald/melodrama/master.svg)](https://travis-ci.org/sebald/melodrama) [![Coverage Status](https://img.shields.io/coveralls/sebald/melodrama/master.svg)](https://coveralls.io/github/sebald/melodrama?branch=master) [![npm](https://img.shields.io/npm/v/melodrama.svg)](https://www.npmjs.com/package/melodrama)
 
 Create boilerplates for presentation in a jiffy, with almost no configuration. Think of [`create-react-app`](https://github.com/facebookincubator/create-react-app) for presentations!
 
