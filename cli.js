@@ -6,10 +6,7 @@ const logSymbols = require('log-symbols');
 const meow = require('meow');
 const path = require('path');
 const PrettyError = require('pretty-error');
-const {
-  prepareDirectory,
-  prepareInstallCommand,
-  installDependencies } = require('./');
+const init = require('./').run;
 
 
 // CLI
@@ -41,19 +38,7 @@ if (!cli.input[0]) {
 // Install package and invoke bootstrapping.
 const dir = path.resolve(cli.input[0]);
 const verbose = cli.flags.verbose;
-const dependencies = 'melodrama-scripts';
-prepareDirectory(dir)
-  .then(() => prepareInstallCommand(verbose))
-  .then(({cmd, args}) => installDependencies(dir, cmd, args, dependencies, verbose))
-  .then(() => {
-    const bootstrap = path.resolve(
-      process.cwd(),
-      'node_modules',
-      dependencies,
-      'index.js'
-    );
-    return require(bootstrap)(dir, { verbose });
-  })
+init(dir, { verbose })
   .catch(err => {
     const pe = new PrettyError();
     console.log();

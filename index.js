@@ -100,8 +100,25 @@ const installDependencies = (dir, cmd, args, dependencies, verbose) => {
     });
 };
 
+const run = (dir, { verbose }) => {
+  const dependencies = 'melodrama-scripts';
+  return prepareDirectory(dir)
+  .then(() => prepareInstallCommand(verbose))
+  .then(({cmd, args}) => installDependencies(dir, cmd, args, dependencies, verbose))
+  .then(() => {
+    const bootstrap = path.resolve(
+      process.cwd(),
+      'node_modules',
+      dependencies,
+      'index.js'
+    );
+    return require(bootstrap)(dir, { verbose });
+  });
+};
+
 
 module.exports = {
+  run,
   prepareDirectory,
   prepareInstallCommand,
   installDependencies
