@@ -81,6 +81,17 @@ Under the hood runs a [`webpack-deve-server`](https://github.com/webpack/webpack
 
 This means that any resource you `import`/`require` will automatically be included into your presentation.
 
+## Loading code examples from a file
+
+Spectacle allows you to easily display code via the `<CodePane>` component. If you want to load your example code directly from a file you can do this by telling webpack to load it with the `raw-loader`. For example:
+
+```jsx
+<CodePane
+  lang="js"
+  source={require('raw!./example.js')}
+></CodePane>
+```
+
 ### Where is my `index.html`?
 
 Melodrama will take care that your presentation is correctly rendered. You shouldn't have to edit anything here.
