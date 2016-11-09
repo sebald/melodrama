@@ -65,6 +65,10 @@ Compile the presentation and start a develeopment server in watch mode. Your (de
 
 Open `index.js` to develop you presentation!
 
+### `npm run build`
+
+When you're done with your presentation run the build command and Melodrama will output a minified, bundled presentation for you.
+
 ## What compiles?
 
 Under the hood runs a [`webpack-deve-server`](https://github.com/webpack/webpack-dev-server) that will load:
@@ -75,9 +79,11 @@ Under the hood runs a [`webpack-deve-server`](https://github.com/webpack/webpack
 - **JSON** with `json-loader`
 - **Images/Fonts** with `file-loader`
 
+This means that any resource you `import`/`require` will automatically be included into your presentation.
+
 ### Where is my `index.html`?
 
-Melodrama will take care that your presentation is correctly rendered. No need to do anything here!
+Melodrama will take care that your presentation is correctly rendered. You shouldn't have to edit anything here.
 
 ## Develop
 
