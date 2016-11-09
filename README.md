@@ -71,7 +71,7 @@ When you're done with your presentation run the build command and Melodrama will
 
 ## What compiles?
 
-Under the hood runs a [`webpack-deve-server`](https://github.com/webpack/webpack-dev-server) that will load:
+Under the hood runs a [`webpack-dev-server`](https://github.com/webpack/webpack-dev-server) that will load:
 
 - **JS(X)** with [Babel](http://babeljs.io/) using `react`, `es2015` and `stage-0`preset.
 - **Markdown** with `html-loader` and `markdown-loader`
