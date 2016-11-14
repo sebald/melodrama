@@ -8,7 +8,7 @@ Create boilerplates for presentation in a jiffy, with almost no configuration. T
 
 [FormidableLabs](https://github.com/FormidableLabs) created an awesome library called [Spectacle](https://github.com/FormidableLabs/spectacle) to create presentations with React. But as with any React app there is some overhead with configuration of a transpiler etc.
 
-There is a [Spectacle Boilerplate](https://github.com/FormidableLabs/spectacle-boilerplate/) but you have to clone the repo, remove the `.git` folder and so on. Lots of drama as you can!
+There is a [Spectacle Boilerplate](https://github.com/FormidableLabs/spectacle-boilerplate/) but you have to clone the repo, remove the `.git` folder and so on. Lots of drama as you see!
 
 Melodrama is for the lazy ones that just want to create a presentation for their next meetup or conference talk. Below you'll find some benefits of using Melodrama.
 
@@ -19,6 +19,7 @@ Melodrama is for the lazy ones that just want to create a presentation for their
 - Install scripts that run a dev server for you
 - Optionally install a Spectacle theme
 - Optionally install syntax highlighting
+- Uses `yarn` in favor of `npm` if installed
 - Loading spinners while everything is downloaded from the npm registry!
 
 ## Getting Started
@@ -50,7 +51,7 @@ my-spectacle-presentation/
   README.md
 ```
 
-While bootstrapping Melodrama will ask you:
+While bootstrapping, Melodrama will ask you:
 
 - If you want to use a theme (fetched from the npm registry)
 - If you want to use syntax highlighting
