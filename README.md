@@ -97,6 +97,14 @@ Spectacle allows you to easily display code via the `<CodePane>` component. If y
 
 Melodrama will take care that your presentation is correctly rendered. You shouldn't have to edit anything here.
 
+## Reporting issues
+
+*tl;dr; Please report any issue occuring while developing [here](https://github.com/sebald/melodrama-scripts/issues)!*
+
+Melodrama is split into two seperate repositories/packages. This one and [a repo containing all scripts](https://github.com/sebald/melodrama-scripts). The benefit of having all the "development scripts" inside another `npm` package is that you do not have to update Melodrama. Instead, everytime you're bootstrapping a new presentation, the latest `melodrama-scripts` will be downloaded for you.
+
+Because of this, please report any issue that occuris during development [here](https://github.com/sebald/melodrama-scripts/issues)!
+
 ## Develop
 
 - Test: `npm test` (optional: `-- --watch`)
