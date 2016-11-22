@@ -2,6 +2,12 @@
   "name": "melodrama",
   "version": "1.2.1",
   "description": "Create a new spectacular presentation without any drama!",
+  "keywords": [
+    "spectacle",
+    "presentation",
+    "reactjs",
+    "cli"
+  ],
   "bin": {
     "melodrama": "./cli.js"
   },
