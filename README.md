@@ -97,7 +97,7 @@ Spectacle allows you to easily display code via the `<CodePane>` component. If y
 
 Melodrama will take care that your presentation is correctly rendered. You shouldn't have to edit anything here.
 
-## Reporting issues
+## :information_source: Reporting issues
 
 *tl;dr; Please report any issue occuring while developing [here](https://github.com/sebald/melodrama-scripts/issues)!*
 
