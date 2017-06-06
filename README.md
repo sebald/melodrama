@@ -97,6 +97,12 @@ Spectacle allows you to easily display code via the `<CodePane>` component. If y
 
 Melodrama will ensure that your presentation is correctly rendered. You shouldn't have to edit anything.
 
+## Assets
+
+[`melodrama-scripts`](https://github.com/sebald/melodrama-scripts) requires you to specify an *entry* file. If you setup your presentation with Melodrama this will be `index.js` by default. In addition, the `assets` folder will be included also.
+
+If you want to change your *entry* just adjust the parameter in your *npm scripts*. If you want more folders to be included into our presentation, use the `--include` flag. It accepts a comma seperated list of folders. Note that if you use this flag, the `assets` folder is no longer included by default.
+
 ## Reporting issues
 
 *tl;dr; Please report any issue occuring during developing [here](https://github.com/sebald/melodrama-scripts/issues)!*
